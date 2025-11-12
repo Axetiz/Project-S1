@@ -26,6 +26,10 @@ public:
     void set_gravity(double G_);
     double get_gravity() const;
 
+    // Substeps per call to step() for improved stability
+    void set_substeps(int n);
+    int get_substeps() const;
+
     // Advance the whole system by one step of size dt.
     void step();
 
@@ -37,7 +41,7 @@ private:
     double dt_;
     Integrator integrator_;
     std::vector<Body> bodies_;
+    int substeps_;
 };
 
 } // namespace orbitsimlite
-

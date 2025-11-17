@@ -8,7 +8,7 @@ using namespace orbitsimlite;
 
 int main() {
     // Create simulator: G in SI, dt = 3600s (1 hour per step)
-    Simulator sim(Physics::DefaultG, 36000.0*2, Integrator::RK4);
+    Simulator sim(Physics::DefaultG, 36000.0, Integrator::RK4);
     sim.set_substeps(12); // 12 substeps -> 300s internal step for stability
 
     // Bodies//

@@ -58,4 +58,3 @@ void Physics::step_rk4(Body& body, const std::vector<Body>& others, double G, do
 }
 
 } // namespace orbitsimlite
-

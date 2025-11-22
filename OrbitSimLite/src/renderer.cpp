@@ -108,4 +108,3 @@ void Renderer::run(Simulator& sim) {
 }
 
 } // namespace orbitsimlite
-

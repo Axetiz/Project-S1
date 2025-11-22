@@ -37,4 +37,3 @@ inline std::uint32_t random_color_u32(std::uint32_t seed) {
 }
 
 } // namespace orbitsimlite
-

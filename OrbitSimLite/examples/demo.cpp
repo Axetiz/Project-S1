@@ -1,5 +1,6 @@
 // OrbitSimLite - Demo application
 #include <cstdint>
+#include <iostream>
 #include "simulator.hpp"
 #include "renderer.hpp"
 #include "utils.hpp"
@@ -8,7 +9,11 @@ using namespace orbitsimlite;
 
 int main() {
     // Create simulator: G in SI, dt = 3600s (1 hour per step)
-    Simulator sim(Physics::DefaultG, 36000.0, Integrator::RK4);
+    double multiplier = 1;
+    std::cout<<"Enter standard simulator speed multiplier: ";
+    std::cin>>multiplier;
+    
+    Simulator sim(Physics::DefaultG, 36000.0 * multiplier, Integrator::RK4);
     sim.set_substeps(12); // 12 substeps -> 300s internal step for stability
 
     // Bodies//
@@ -24,6 +29,10 @@ int main() {
     // Venus
     Body venus(4.867e24, Vec2{1.082e11, 0.0}, Vec2{0.0, 35020.0}, 9.0, rgb_u32(255, 200, 120));
     sim.add_body(venus);
+
+    //Experemental
+    Body blop(4.857e23, Vec2{1e11, 0.0}, Vec2{0.0, 10000}, 9.0, rgb_u32(0,250,0));
+    sim.add_body(blop);
 
     // Earth
     Body earth(5.972e24, Vec2{1.496e11, 0.0}, Vec2{0.0, 29783.0}, 10.0, rgb_u32(70, 120, 255));

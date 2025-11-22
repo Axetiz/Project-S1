@@ -10,4 +10,3 @@ Body::Body(double mass_, const Vec2& pos_, const Vec2& vel_, double radius_, std
     : mass(mass_), radius(radius_), pos(pos_), vel(vel_), acc(0.0, 0.0), color(color_) {}
 
 } // namespace orbitsimlite
-

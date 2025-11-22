@@ -36,4 +36,3 @@ double Vec2::distance(const Vec2& a, const Vec2& b) {
 Vec2 operator*(double s, const Vec2& v) { return Vec2{v.x * s, v.y * s}; }
 
 } // namespace orbitsimlite
-

@@ -37,4 +37,3 @@ struct Vec2 {
 Vec2 operator*(double s, const Vec2& v);
 
 } // namespace orbitsimlite
-

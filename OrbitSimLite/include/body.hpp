@@ -19,4 +19,3 @@ struct Body {
 };
 
 } // namespace orbitsimlite
-

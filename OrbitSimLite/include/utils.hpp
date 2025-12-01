@@ -1,4 +1,8 @@
 // OrbitSimLite - Utility helpers
+//
+// Small helper routines for colour packing/unpacking, unit conversions and
+// deterministic pseudo-random colour generation. These are kept free of any
+// simulation state so they can be reused in other contexts.
 #pragma once
 
 #include <cstdint>

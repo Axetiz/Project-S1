@@ -1,4 +1,8 @@
 // OrbitSimLite - 2D vector math
+//
+// A lightweight 2D vector type with the minimal set of operations required
+// by the simulation. This is intentionally simple and header-only for the
+// interface, with implementation in src/vec2.cpp to keep build times low.
 #pragma once
 
 #include <cmath>

@@ -4,7 +4,7 @@
 namespace orbitsimlite {
 
 Simulator::Simulator(double G, double dt, Integrator integrator)
-    : G_(G), dt_(dt), integrator_(integrator), substeps_(1) {}
+    : G_(G), dt_(dt), integrator_(integrator), substeps_(1), time_(0.0) {}
 
 void Simulator::add_body(const Body& b) { bodies_.push_back(b); }
 
@@ -54,6 +54,9 @@ void Simulator::step() {
             bodies_ = std::move(next);
         }
     }
+
+    // Advance simulation time by one full step
+    time_ += dt_;
 }
 
 const std::vector<Body>& Simulator::get_bodies() const { return bodies_; }
@@ -61,5 +64,8 @@ std::vector<Body>& Simulator::access_bodies() { return bodies_; }
 
 void Simulator::set_substeps(int n) { substeps_ = (n > 0) ? n : 1; }
 int Simulator::get_substeps() const { return substeps_; }
+
+double Simulator::get_time() const { return time_; }
+void Simulator::reset_time() { time_ = 0.0; }
 
 } // namespace orbitsimlite

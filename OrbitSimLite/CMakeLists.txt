@@ -36,4 +36,8 @@ if (ORBITSIMLITE_BUILD_DEMO)
     add_executable(demo examples/demo.cpp)
     target_link_libraries(demo PRIVATE orbitsimlite)
     target_include_directories(demo PRIVATE ${ORBITSIMLITE_INCLUDE_DIR})
+
+    add_executable(demo_two_suns examples/demo_two_suns.cpp)
+    target_link_libraries(demo_two_suns PRIVATE orbitsimlite)
+    target_include_directories(demo_two_suns PRIVATE ${ORBITSIMLITE_INCLUDE_DIR})
 endif()

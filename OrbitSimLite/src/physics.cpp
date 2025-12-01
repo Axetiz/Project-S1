@@ -1,22 +1,34 @@
 // OrbitSimLite - Physics implementation
+//
+// The routines in this file implement:
+//  - Newtonian gravitational acceleration between point masses
+//  - a symplectic Euler integrator
+//  - an educational Runge–Kutta 4 (RK4) step
+//
+// All calculations are performed in double precision using SI units
+// (metres, kilograms, seconds).
 #include "physics.hpp"
 
 #include <algorithm>
 
 namespace orbitsimlite {
 
-static constexpr double kEps2 = 1e-9; // Avoid singularities
+// Softening term to avoid numerical singularities when two positions become
+// extremely close. This is intentionally small compared to the astronomical
+// distances used in the demos but prevents division-by-zero.
+static constexpr double kEps2 = 1e-9;
 
 Vec2 Physics::acceleration(const Body& target, const std::vector<Body>& others, double G) {
     Vec2 acc{0.0, 0.0};
     for (const auto& o : others) {
-        // Skip exact same position to avoid singularity; also covers self when positions match
+        // Skip exact same position to avoid singularity; also covers the case
+        // where 'target' might accidentally be present in 'others'.
         Vec2 r = o.pos - target.pos;
         double dist2 = r.length_squared();
         if (dist2 <= kEps2) continue;
         double invDist = 1.0 / std::sqrt(dist2);
         double invDist3 = invDist * invDist * invDist;
-        // a = G * m / r^2 * r_hat = G * m * r / r^3
+        // a = G * m / r^2 * r_hat = G * m * r / |r|^3
         acc += (G * o.mass) * (r * invDist3);
     }
     return acc;
@@ -24,13 +36,22 @@ Vec2 Physics::acceleration(const Body& target, const std::vector<Body>& others, 
 
 void Physics::step_euler(Body& body, const Vec2& acc, double dt) {
     body.acc = acc;
-    // Symplectic Euler: update velocity then position
+    // Symplectic Euler: update velocity using current acceleration, then
+    // update position using the new velocity.
     body.vel += body.acc * dt;
     body.pos += body.vel * dt;
 }
 
 void Physics::step_rk4(Body& body, const std::vector<Body>& others, double G, double dt) {
-    // Educational RK4 using others at their current positions
+    // Educational RK4 using 'others' at their current positions.
+    //
+    // We treat the velocity v and position x of a single body as the state
+    // and integrate according to:
+    //   x' = v
+    //   v' = a(x),  where a(x) is computed from Newtonian gravity.
+    //
+    // For a concise derivation and stability discussion see:
+    //   https://en.wikipedia.org/wiki/Runge%E2%80%93Kutta_methods
     auto acc_at = [&](const Vec2& pos) {
         Body temp = body;
         temp.pos = pos;

@@ -5,6 +5,8 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
+include(GNUInstallDirs)
+
 option(ORBITSIMLITE_BUILD_DEMO "Build the demo applications" ON)
 option(ORBITSIMLITE_BUILD_TESTS "Build simple numerical tests" ON)
 
@@ -20,7 +22,11 @@ add_library(orbitsimlite STATIC
     ${ORBITSIMLITE_SRC_DIR}/renderer.cpp
 )
 
-target_include_directories(orbitsimlite PUBLIC ${ORBITSIMLITE_INCLUDE_DIR})
+target_include_directories(orbitsimlite
+    PUBLIC
+        $<BUILD_INTERFACE:${ORBITSIMLITE_INCLUDE_DIR}>
+        $<INSTALL_INTERFACE:include>
+)
 
 # Find SFML for the renderer and demo
 find_package(SFML 2.5 REQUIRED COMPONENTS system window graphics)
@@ -55,3 +61,14 @@ if (ORBITSIMLITE_BUILD_TESTS)
     target_link_libraries(orbitsimlite_tests PRIVATE orbitsimlite)
     target_include_directories(orbitsimlite_tests PRIVATE ${ORBITSIMLITE_INCLUDE_DIR})
 endif()
+
+# Install rules for library-style usage
+install(TARGETS orbitsimlite
+    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+)
+
+install(DIRECTORY ${ORBITSIMLITE_INCLUDE_DIR}/
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+)

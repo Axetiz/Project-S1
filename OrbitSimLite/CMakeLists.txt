@@ -41,17 +41,17 @@ endif()
 
 if (ORBITSIMLITE_BUILD_DEMO)
     # Solar system style demo
-    add_executable(demo_solar_system examples/demo.cpp)
+    add_executable(demo_solar_system examples/demo_solar_system.cpp)
     target_link_libraries(demo_solar_system PRIVATE orbitsimlite)
     target_include_directories(demo_solar_system PRIVATE ${ORBITSIMLITE_INCLUDE_DIR})
 
     # Two equal-mass suns in mutual orbit
-    add_executable(demo_binary_stars examples/demo_two_suns.cpp)
+    add_executable(demo_binary_stars examples/demo_binary_stars.cpp)
     target_link_libraries(demo_binary_stars PRIVATE orbitsimlite)
     target_include_directories(demo_binary_stars PRIVATE ${ORBITSIMLITE_INCLUDE_DIR})
 
     # Three-body figure-eight choreography
-    add_executable(demo_threebody_figure8 examples/demo_figure8.cpp)
+    add_executable(demo_threebody_figure8 examples/demo_threebody_figure8.cpp)
     target_link_libraries(demo_threebody_figure8 PRIVATE orbitsimlite)
     target_include_directories(demo_threebody_figure8 PRIVATE ${ORBITSIMLITE_INCLUDE_DIR})
 endif()

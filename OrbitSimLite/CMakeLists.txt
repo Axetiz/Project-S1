@@ -5,7 +5,8 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-option(ORBITSIMLITE_BUILD_DEMO "Build the demo application" ON)
+option(ORBITSIMLITE_BUILD_DEMO "Build the demo applications" ON)
+option(ORBITSIMLITE_BUILD_TESTS "Build simple numerical tests" ON)
 
 # Library sources
 set(ORBITSIMLITE_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
@@ -33,11 +34,24 @@ else()
 endif()
 
 if (ORBITSIMLITE_BUILD_DEMO)
-    add_executable(demo examples/demo.cpp)
-    target_link_libraries(demo PRIVATE orbitsimlite)
-    target_include_directories(demo PRIVATE ${ORBITSIMLITE_INCLUDE_DIR})
+    # Solar system style demo
+    add_executable(demo_solar_system examples/demo.cpp)
+    target_link_libraries(demo_solar_system PRIVATE orbitsimlite)
+    target_include_directories(demo_solar_system PRIVATE ${ORBITSIMLITE_INCLUDE_DIR})
 
-    add_executable(demo_two_suns examples/demo_two_suns.cpp)
-    target_link_libraries(demo_two_suns PRIVATE orbitsimlite)
-    target_include_directories(demo_two_suns PRIVATE ${ORBITSIMLITE_INCLUDE_DIR})
+    # Two equal-mass suns in mutual orbit
+    add_executable(demo_binary_stars examples/demo_two_suns.cpp)
+    target_link_libraries(demo_binary_stars PRIVATE orbitsimlite)
+    target_include_directories(demo_binary_stars PRIVATE ${ORBITSIMLITE_INCLUDE_DIR})
+
+    # Three-body figure-eight choreography
+    add_executable(demo_threebody_figure8 examples/demo_figure8.cpp)
+    target_link_libraries(demo_threebody_figure8 PRIVATE orbitsimlite)
+    target_include_directories(demo_threebody_figure8 PRIVATE ${ORBITSIMLITE_INCLUDE_DIR})
+endif()
+
+if (ORBITSIMLITE_BUILD_TESTS)
+    add_executable(orbitsimlite_tests tests/physics_tests.cpp)
+    target_link_libraries(orbitsimlite_tests PRIVATE orbitsimlite)
+    target_include_directories(orbitsimlite_tests PRIVATE ${ORBITSIMLITE_INCLUDE_DIR})
 endif()
